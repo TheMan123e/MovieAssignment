@@ -51,4 +51,19 @@ public class HiringRecord {
 		return result;
 	}
 	
+	public boolean hasBeenReturned() {
+		return hasBeenReturned;
+	}
+	
+	public DateTime getDateBorrowed() {
+		return borrowDate;
+	}
+	
+	public DateTime getDateReturned() {
+		return returnDate;
+	}
+	
+	public double getRentalFee() {
+		return rentalFee;
+	}
 }

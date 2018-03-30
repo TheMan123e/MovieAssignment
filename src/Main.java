@@ -7,19 +7,13 @@ public class Main {
 	}
 	
 	public void run() {
-		HiringRecord record1 = new HiringRecord();
-		HiringRecord record2 = new HiringRecord();
+		Movie movie = new Movie("M_MOS", "Man of Steel", "Action", "Description", false);
 		
-		record1.borrowItem("a", "b", 3);
-		//record2.borrowItem("c", "d", 3);
+		movie.borrow("member");
 		
-		DateTime dt = new DateTime(4);
-		System.out.println(record1.toString());
+		DateTime dt = new DateTime(10);
 		
-		record1.returnItem(dt, 20);
-		
-		System.out.println(record1.getDetailsFormatted());
-		//System.out.println(record2.getDetails());
-		System.out.println(record1.toString());
+		double fee = movie.returnItem(dt);
+		System.out.println("Fee was " + fee);
 	}
 }
