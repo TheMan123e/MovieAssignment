@@ -12,6 +12,8 @@ public class Movie {
 	private final double NEW_RELEASE_SURCHARGE = 10;
 	private final int MAX_DAYS_NEW = 2;
 	private final int MAX_DAYS = 7;
+	private final double STANDARD_RENTAL_FEE = 1;
+	
 	/**
 	 * 
 	 * @param id M_id
@@ -35,7 +37,8 @@ public class Movie {
 		if (!isCurrentlyBorrowed()) {
 			int index = indexOfOldest();
 			HiringRecord hr = new HiringRecord();
-			hr.borrowItem(id, memberID, getRentalFee());
+			//TODO: See if this changes with new release
+			hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE);
 			
 			hireHistory[index] = hr;
 			currentlyBorrowed = hr;
@@ -106,11 +109,6 @@ public class Movie {
 		return index;
 	}
 	
-	//TODO: Calculate the rental fee
-	public double getRentalFee() {
-		return 1;
-	}
-	
 	private boolean isCurrentlyBorrowed() {
 		for(HiringRecord hr : hireHistory) {
 			if ((hr != null) &&(!hr.hasBeenReturned())) {
@@ -119,5 +117,23 @@ public class Movie {
 		}
 		
 		return false;
+	}
+	
+	public String toString() {
+		String result = id + ":" + title + ":" + description + ":" + genre + ":" + STANDARD_RENTAL_FEE + ":";
+		
+		if (isNewRelease) {
+			result += "NR";
+		} else {
+			result += "WL";
+		}
+		
+		if (isCurrentlyBorrowed()) {
+			result += ":" + "Y";
+		} else {
+			result += ":" + "N";
+		}
+		
+		return result;
 	}
 }
