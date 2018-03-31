@@ -1,3 +1,5 @@
+package s3722763.hireitems;
+import s3722763.util.DateTime;
 
 public class HiringRecord {
 	private String id;
