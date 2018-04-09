@@ -2,6 +2,10 @@ package s3722763.ui;
 
 import java.util.Scanner;
 
+import s3722763.hireitems.Movie;
+import s3722763.ui.result.IResult;
+import s3722763.ui.result.ResultAdd;
+
 public class MovieMaster {
 	private UIAction[] actions;
 	Scanner input;
@@ -27,15 +31,33 @@ public class MovieMaster {
 				displayMenuItem(action);
 			}
 		}
-		
+	
+	}
+	
+	public void displayOptions() {
 		System.out.print("Enter selection: ");
 		String request = input.nextLine().toUpperCase();
 		
 		int indexOfAction = indexOfItem(request);
+		IResult result = null;
 		
 		if (indexOfAction != -1) {
-			actions[indexOfAction].action();
+			result = actions[indexOfAction].action();
 		}
+		
+		if (indexOfAction == -1 || result == null) {
+			//Error getting action index or error processing action
+		}
+		
+		if (result.typeOfResult().equals("add")) {
+			ResultAdd ra = (ResultAdd)result;
+			
+			if (ra.item instanceof Movie) {
+				Movie movie = (Movie) ra.item;
+				System.out.println("Adding a movie to the list of avaliable movies");
+			}
+		}
+		
 	}
 	
 	private int indexOfItem(String key) {

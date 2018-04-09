@@ -1,7 +1,7 @@
 package s3722763.hireitems;
 import s3722763.util.DateTime;
 
-public class Movie {
+public class Movie extends Item {
 	private String id;
 	private String title;
 	private String genre;

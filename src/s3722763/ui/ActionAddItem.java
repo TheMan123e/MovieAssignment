@@ -3,6 +3,7 @@ package s3722763.ui;
 import java.util.Scanner;
 
 import s3722763.hireitems.Movie;
+import s3722763.ui.result.ResultAdd;
 
 public class ActionAddItem extends UIAction {
 	public ActionAddItem() {
@@ -11,7 +12,7 @@ public class ActionAddItem extends UIAction {
 
 	//TODO: Check the input
 	@Override
-	public void action() {
+	public ResultAdd action() {
 		//TODO: if this should come from movie master
 		Scanner scanner = new Scanner(System.in);
 		
@@ -35,9 +36,13 @@ public class ActionAddItem extends UIAction {
 			newRelease = true;
 		}
 		
+		//TODO: Checkif id input valid or title doesn't exist
 		Movie movie = new Movie(id, title, genre, description, newRelease);
+		ResultAdd ra = new ResultAdd(movie);
 		
 		scanner.close();
+		
+		return ra;
 	}
 
 }

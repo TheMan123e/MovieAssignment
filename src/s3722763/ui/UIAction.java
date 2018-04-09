@@ -1,5 +1,7 @@
 package s3722763.ui;
 
+import s3722763.ui.result.IResult;
+
 public abstract class UIAction {
 	private String name;
 	private String key;
@@ -9,7 +11,7 @@ public abstract class UIAction {
 		this.key = key.toUpperCase();
 	}
 	
-	public abstract void action();
+	public abstract IResult action();
 	
 	public String getName() {
 		return name;
