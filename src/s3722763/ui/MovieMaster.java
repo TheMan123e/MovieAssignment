@@ -2,6 +2,7 @@ package s3722763.ui;
 
 import java.util.Scanner;
 
+import s3722763.hireitems.Item;
 import s3722763.hireitems.Movie;
 import s3722763.ui.result.IResult;
 import s3722763.ui.result.ResultAdd;
@@ -15,6 +16,7 @@ public class MovieMaster {
 	public MovieMaster() {
 		actions = new UIAction[6];
 		input = new Scanner(System.in);
+		movies = new Movie[1];
 		
 		ActionAddItem aai = new ActionAddItem();
 		actions[0] = aai;
@@ -59,6 +61,13 @@ public class MovieMaster {
 			}
 		}
 		
+	}
+	
+	private void addItem(Item item) {
+		if (item instanceof Movie) {
+			Movie m = (Movie)item;
+			
+		} 
 	}
 	
 	private int indexOfItem(String key) {
