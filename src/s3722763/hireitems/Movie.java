@@ -2,13 +2,7 @@ package s3722763.hireitems;
 import s3722763.util.DateTime;
 
 public class Movie extends Item {
-	private String id;
-	private String title;
-	private String genre;
-	private String description;
 	private boolean isNewRelease;
-	private HiringRecord currentlyBorrowed;
-	private HiringRecord[] hireHistory;
 	
 	//TODO: Set to something else
 	private final double NEW_RELEASE_SURCHARGE = 10;
@@ -24,13 +18,8 @@ public class Movie extends Item {
 	 * @param description
 	 */
 	public Movie(String id, String title, String genre, String description, boolean newRelease) {
-		this.title = title;
-		this.id = id;
-		this.genre = genre;
+		super(id, title, genre, description);
 		this.isNewRelease = newRelease;
-		this.description = description;
-		//In specifications only keep a max of 10 records
-		this.hireHistory = new HiringRecord[10];
 	}
 	
 	public double borrow(String memberID) {
@@ -42,7 +31,7 @@ public class Movie extends Item {
 			//TODO: See if this changes with new release
 			hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE);
 			
-			hireHistory[index] = hr;
+			getHireHistory()[index] = hr;
 			currentlyBorrowed = hr;
 			
 			fee = hr.getRentalFee();

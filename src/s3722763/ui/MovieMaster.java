@@ -8,6 +8,8 @@ import s3722763.ui.result.ResultAdd;
 
 public class MovieMaster {
 	private UIAction[] actions;
+	private Movie[] movies;
+	
 	Scanner input;
 	
 	public MovieMaster() {
@@ -31,7 +33,6 @@ public class MovieMaster {
 				displayMenuItem(action);
 			}
 		}
-	
 	}
 	
 	public void displayOptions() {

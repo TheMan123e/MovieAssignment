@@ -36,7 +36,7 @@ public class ActionAddItem extends UIAction {
 			newRelease = true;
 		}
 		
-		//TODO: Checkif id input valid or title doesn't exist
+		//TODO: Check if id input valid or title doesn't exist
 		Movie movie = new Movie(id, title, genre, description, newRelease);
 		ResultAdd ra = new ResultAdd(movie);
 		
