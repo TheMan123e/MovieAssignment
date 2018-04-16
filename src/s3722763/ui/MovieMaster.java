@@ -2,6 +2,9 @@ package s3722763.ui;
 
 import s3722763.hireitems.Item;
 import s3722763.ui.menu.Menu;
+import s3722763.ui.menu.actions.Action;
+import s3722763.ui.menu.actions.ActionAdd;
+import s3722763.ui.menu.actions.ActionResult;
 
 public class MovieMaster {	
 	Item[] rentalItems;
@@ -23,8 +26,20 @@ public class MovieMaster {
 		
 		while (!endProgram) {
 			menu.displayStart();
-			
-			
+			Action a = menu.getActionFromInput();
+			//TODO: Try to avoid this
+			if(a instanceof ActionAdd) {
+				ActionAdd aa = (ActionAdd) a;
+				aa.updateItems(rentalItems);
+				ActionResult ar = a.act();
+				if (ar == ActionResult.SUCCESS) {
+					addItemToRentalList(aa.getCreatedItem());
+					System.out.println("New movie added successfully for movie id: " + aa.getCreatedItem().getID());
+				} else {
+					System.out.println("The following error occured");
+					System.out.println(a.getReasonForFailure());
+				}
+			}
 		}
 	}
 	
