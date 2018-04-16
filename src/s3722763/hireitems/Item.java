@@ -24,4 +24,7 @@ public class Item {
 		return hireHistory;
 	}
 	
+	public String getID() {
+		return id;
+	}
 }

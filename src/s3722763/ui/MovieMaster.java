@@ -1,91 +1,54 @@
 package s3722763.ui;
 
-import java.util.Scanner;
-
 import s3722763.hireitems.Item;
-import s3722763.hireitems.Movie;
-import s3722763.ui.result.IResult;
-import s3722763.ui.result.ResultAdd;
+import s3722763.ui.menu.Menu;
 
-public class MovieMaster {
-	private UIAction[] actions;
-	private Movie[] movies;
-	
-	Scanner input;
-	
+public class MovieMaster {	
+	Item[] rentalItems;
+	Menu menu;
+	/*
+	 * Load menu
+	 * Get user key
+	 * find menu item with that key
+	 * 
+	 * 
+	 */
 	public MovieMaster() {
-		actions = new UIAction[6];
-		input = new Scanner(System.in);
-		movies = new Movie[1];
-		
-		ActionAddItem aai = new ActionAddItem();
-		actions[0] = aai;
-		
-		ActionBorrowItem abi = new ActionBorrowItem();
-		actions[1] = abi;
-		
-		ActionReturnItem ari = new ActionReturnItem();
-		actions[2] = ari;
+		rentalItems = new Item[2];
+		menu = new Menu();
 	}
 	
-	public void loadMenu() {
-		System.out.println("*** Movie Master System Menu ***");
-		for (UIAction action : actions) {
-			if (action != null) {
-				displayMenuItem(action);
-			}
-		}
-	}
-	
-	public void displayOptions() {
-		System.out.print("Enter selection: ");
-		String request = input.nextLine().toUpperCase();
+	public void run() {
+		boolean endProgram = false;
 		
-		int indexOfAction = indexOfItem(request);
-		IResult result = null;
-		
-		if (indexOfAction != -1) {
-			result = actions[indexOfAction].action();
-		}
-		
-		if (indexOfAction == -1 || result == null) {
-			//Error getting action index or error processing action
-		}
-		
-		if (result.typeOfResult().equals("add")) {
-			ResultAdd ra = (ResultAdd)result;
+		while (!endProgram) {
+			menu.displayStart();
 			
-			if (ra.item instanceof Movie) {
-				Movie movie = (Movie) ra.item;
-				System.out.println("Adding a movie to the list of avaliable movies");
-			}
-		}
-		
-	}
-	
-	private void addItem(Item item) {
-		if (item instanceof Movie) {
-			Movie m = (Movie)item;
 			
-		} 
+		}
 	}
 	
-	private int indexOfItem(String key) {
-		for (int i = 0; i < actions.length; i++) {
-			if (actions[i] != null) {
-				if (actions[i].getKey().equals(key)) {
-					return i;
-				}
+	public void addItemToRentalList(Item item) {
+		int emptyIndex = -1;
+		
+		for (int i = 0; i < rentalItems.length; i++) {
+			if (rentalItems[i] == null) {
+				emptyIndex = i; //Found first slot avaliable
+				break;
 			}
 		}
 		
-		return -1;
-	}
-	
-	private void displayMenuItem(UIAction action) {
-		int numberOfSpaces = 27 - action.getName().length();
+		if (emptyIndex == -1) {
+			Item[] newArray = new Item[rentalItems.length];
+			
+			for (int i = 0; i < rentalItems.length; i++) {
+				newArray[i] = rentalItems[i];
+			}
+			
+			emptyIndex = rentalItems.length;
+			rentalItems = newArray;
+		}
 		
-		String toDisplay = String.format("%s%" + numberOfSpaces + "s%s", action.getName(), " ", action.getKey());
-		System.out.println(toDisplay);
+		rentalItems[emptyIndex] = item;
 	}
 }
