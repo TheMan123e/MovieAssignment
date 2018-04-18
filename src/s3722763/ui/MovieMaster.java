@@ -27,43 +27,13 @@ public class MovieMaster {
 		while (!endProgram) {
 			menu.displayStart();
 			Action a = menu.getActionFromInput();
-			//TODO: Try to avoid this
-			if(a instanceof ActionAdd) {
-				ActionAdd aa = (ActionAdd) a;
-				aa.updateItems(rentalItems);
-				ActionResult ar = a.act();
-				if (ar == ActionResult.SUCCESS) {
-					addItemToRentalList(aa.getCreatedItem());
-					System.out.println("New movie added successfully for movie id: " + aa.getCreatedItem().getID());
-				} else {
-					System.out.println("The following error occured");
-					System.out.println(a.getReasonForFailure());
-				}
+			ActionResult ar = a.act(rentalItems);
+			if (ar == ActionResult.SUCCESS) {
+				System.out.println("Successfully preformed action " + a.getName());
+			} else {
+				//Failed for some reason
+				System.out.println("Failed to do action: " + a.getReasonForFailure());
 			}
 		}
-	}
-	
-	public void addItemToRentalList(Item item) {
-		int emptyIndex = -1;
-		
-		for (int i = 0; i < rentalItems.length; i++) {
-			if (rentalItems[i] == null) {
-				emptyIndex = i; //Found first slot avaliable
-				break;
-			}
-		}
-		
-		if (emptyIndex == -1) {
-			Item[] newArray = new Item[rentalItems.length];
-			
-			for (int i = 0; i < rentalItems.length; i++) {
-				newArray[i] = rentalItems[i];
-			}
-			
-			emptyIndex = rentalItems.length;
-			rentalItems = newArray;
-		}
-		
-		rentalItems[emptyIndex] = item;
 	}
 }

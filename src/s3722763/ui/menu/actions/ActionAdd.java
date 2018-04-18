@@ -7,16 +7,16 @@ import s3722763.hireitems.Movie;
 
 //TODO: Add case for game and movie (Seperate them) as the following only covers movies
 public class ActionAdd extends Action {
-	Item[] items;
-	private Item createdItem;
-	
-	public void updateItems(Item[] items) {
-		this.items = items;
-		items = null;
+
+	public ActionAdd() {
+		super("Add");
 	}
 	
 	@Override
-	public ActionResult act() {
+	public ActionResult act(Item[] items) {
+		tempRentalItems = items;
+		Item createdItem;
+		
 		if (items == null) {
 			reasonForFailure = "The item array must be set before it is used";
 			return ActionResult.FAILURE;
@@ -27,7 +27,7 @@ public class ActionAdd extends Action {
 		//TODO: Movie has M_ and game has G_
 		System.out.print("Enter ID: ");
 		String id = in.nextLine();
-		boolean alreadyAdded = checkID(id);
+		boolean alreadyAdded = checkID(id, items);
 		
 		if (alreadyAdded) {
 			reasonForFailure = "Item already exists";
@@ -69,11 +69,38 @@ public class ActionAdd extends Action {
 		}
 		
 		createdItem = new Movie(id, title, genre, description, isNewRelease);
+		addItemToRentalList(createdItem);
 		
 		return ActionResult.SUCCESS;
 	}
 	
-	private boolean checkID(String id) {
+
+	
+	public void addItemToRentalList(Item item) {
+		int emptyIndex = -1;
+		
+		for (int i = 0; i < tempRentalItems.length; i++) {
+			if (tempRentalItems[i] == null) {
+				emptyIndex = i; //Found first slot avaliable
+				break;
+			}
+		}
+		
+		if (emptyIndex == -1) {
+			Item[] newArray = new Item[tempRentalItems.length];
+			
+			for (int i = 0; i < tempRentalItems.length; i++) {
+				newArray[i] = tempRentalItems[i];
+			}
+			
+			emptyIndex = tempRentalItems.length;
+			tempRentalItems = newArray;
+		}
+		
+		tempRentalItems[emptyIndex] = item;
+	}
+	
+	private boolean checkID(String id, Item[] items) {
 		boolean result = false;
 		
 		for(Item i : items) {
@@ -86,8 +113,10 @@ public class ActionAdd extends Action {
 		
 		return result;
 	}
-	
-	public Item getCreatedItem() {
-		return createdItem;
+
+	@Override
+	public Item[] getUpdatedList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

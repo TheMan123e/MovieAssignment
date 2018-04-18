@@ -1,11 +1,25 @@
 package s3722763.ui.menu.actions;
 
+import s3722763.hireitems.Item;
+
 public abstract class Action {
+	private String name;
+	protected Item[] tempRentalItems;
+	
+	public Action(String name) {
+		this.name = name;
+	}
+	
 	protected String reasonForFailure;
 	
-	public abstract ActionResult act();
+	public abstract ActionResult act(Item[] items);
+	public abstract Item[] getUpdatedList();
 
 	public String getReasonForFailure() {
 		return reasonForFailure;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
