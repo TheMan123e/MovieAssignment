@@ -13,7 +13,10 @@ public abstract class Action {
 	protected String reasonForFailure;
 	
 	public abstract ActionResult act(Item[] items);
-	public abstract Item[] getUpdatedList();
+	
+	public Item[] getUpdatedList() {
+		return tempRentalItems;
+	}
 
 	public String getReasonForFailure() {
 		return reasonForFailure;

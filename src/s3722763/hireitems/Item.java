@@ -1,6 +1,6 @@
 package s3722763.hireitems;
 
-public class Item {
+public abstract class Item {
 	//TODO: Maybe change these protected to only getters
 	protected String id;
 	protected String title;
@@ -20,6 +20,20 @@ public class Item {
 		this.hireHistory = new HiringRecord[10];
 	}
 	
+	protected String getFormattedRecord() {
+		String result = "";
+		
+		for(HiringRecord hr : hireHistory) {
+			if (hr != null) {
+				result += hr.getDetailsFormatted();
+			}
+		}
+		
+		return result;
+	}
+	
+	public abstract String getDetails();
+	
 	public HiringRecord[] getHireHistory() {
 		return hireHistory;
 	}
@@ -27,4 +41,6 @@ public class Item {
 	public String getID() {
 		return id;
 	}
+	
+
 }

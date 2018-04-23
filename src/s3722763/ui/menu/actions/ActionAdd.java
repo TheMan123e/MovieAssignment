@@ -7,11 +7,11 @@ import s3722763.hireitems.Movie;
 
 //TODO: Add case for game and movie (Seperate them) as the following only covers movies
 public class ActionAdd extends Action {
-
 	public ActionAdd() {
 		super("Add");
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	public ActionResult act(Item[] items) {
 		tempRentalItems = items;
@@ -112,11 +112,5 @@ public class ActionAdd extends Action {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public Item[] getUpdatedList() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

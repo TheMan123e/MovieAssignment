@@ -127,4 +127,27 @@ public class Movie extends Item {
 		
 		return result;
 	}
+	
+	@Override
+	public String getDetails() {
+		String result = "";
+		result += String.format("ID:%10s%s\n", " ", id);
+		result += String.format("Title:%10s%s\n", " ", title);
+		result += String.format("Genre:%10s%s\n", " ", genre);
+		result += String.format("Description:%10s%s\n", " ", description);
+		result += String.format("Standard Fee:%10s$%s\n", " ", String.valueOf(fee));
+		result += String.format("On loan:%5s%b\n", " ", isCurrentlyBorrowed);
+		
+		if (isNewRelease) {
+			result += String.format("Movie Type:%10s%s\n", " ", "New Release");
+			result += String.format("Rental Period:%10s%s\n", " ", String.valueOf(MAX_DAYS_NEW) + " days");
+		} else {
+			result += String.format("Movie Type:%10s%s\n", " ", "Weekly");
+			result += String.format("Rental Period:%10s%s\n", " ", String.valueOf(MAX_DAYS) + " days");
+		}
+		
+		result += getFormattedRecord();
+		
+		return result;
+	}
 }

@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import s3722763.ui.menu.actions.Action;
 import s3722763.ui.menu.actions.ActionAdd;
+import s3722763.ui.menu.actions.ActionDisplay;
+import s3722763.ui.menu.actions.ActionSeedData;
 import s3722763.ui.menu.items.MenuItem;
 
 public class Menu {
@@ -18,7 +20,13 @@ public class Menu {
 		//2 - Borrow
 		//3 - Return
 		//4 - Display details
+		ActionDisplay ad  = new ActionDisplay();
+		MenuItem dmi = new MenuItem("Display details", "D", 0, ad);
+		menuItems[3] = dmi;
 		//5 - Seed Data
+		ActionSeedData asd = new ActionSeedData();
+		MenuItem emi = new MenuItem("Seed data", "E", 0, asd);
+		menuItems[4] = emi;
 		//6 - Exit program
 	}
 	
