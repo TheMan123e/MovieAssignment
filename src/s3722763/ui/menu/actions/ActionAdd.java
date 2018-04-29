@@ -11,7 +11,6 @@ public class ActionAdd extends Action {
 		super("Add");
 	}
 	
-	@SuppressWarnings("resource")
 	@Override
 	public ActionResult act(Item[] items) {
 		tempRentalItems = items;
@@ -31,11 +30,9 @@ public class ActionAdd extends Action {
 		
 		if (alreadyAdded) {
 			reasonForFailure = "Item already exists";
-			in.close();
 			return ActionResult.FAILURE;
 		} else if (id.length() != 3) {
 			reasonForFailure = "ID needs to be 3 characters";
-			in.close();
 			return ActionResult.FAILURE;
 		}
 		

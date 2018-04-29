@@ -100,16 +100,6 @@ public class Movie extends Item {
 		return index;
 	}
 	
-	private boolean isCurrentlyBorrowed() {
-		for(HiringRecord hr : hireHistory) {
-			if ((hr != null) &&(!hr.hasBeenReturned())) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
 	public String toString() {
 		String result = id + ":" + title + ":" + description + ":" + genre + ":" + STANDARD_RENTAL_FEE + ":";
 		
@@ -136,7 +126,7 @@ public class Movie extends Item {
 		result += String.format("Genre:%10s%s\n", " ", genre);
 		result += String.format("Description:%10s%s\n", " ", description);
 		result += String.format("Standard Fee:%10s$%s\n", " ", String.valueOf(fee));
-		result += String.format("On loan:%5s%b\n", " ", isCurrentlyBorrowed);
+		result += String.format("On loan:%5s%b\n", " ", isCurrentlyBorrowed());
 		
 		if (isNewRelease) {
 			result += String.format("Movie Type:%10s%s\n", " ", "New Release");

@@ -27,13 +27,17 @@ public class MovieMaster {
 		while (!endProgram) {
 			menu.displayStart();
 			Action a = menu.getActionFromInput();
-			ActionResult ar = a.act(rentalItems);
-			if (ar == ActionResult.SUCCESS) {
-				System.out.println("Successfully preformed action " + a.getName());
-				rentalItems = a.getUpdatedList();
-			} else {
-				//Failed for some reason
-				System.out.println("Failed to do action: " + a.getReasonForFailure());
+			if (a != null) {
+				ActionResult ar = a.act(rentalItems);
+				if (ar == ActionResult.SUCCESS) {
+					System.out.println("Successfully preformed action " + a.getName());
+					if (a.getUpdatedList() != null) {
+						rentalItems = a.getUpdatedList();
+					}
+				} else {
+					//Failed for some reason
+					System.out.println("Failed to do action: " + a.getReasonForFailure());
+				}
 			}
 		}
 	}

@@ -8,7 +8,7 @@ public abstract class Item {
 	protected String genre;
 	protected double fee;
 	protected HiringRecord[] hireHistory;
-	protected boolean isCurrentlyBorrowed;
+	private boolean isCurrentlyBorrowed;
 	protected HiringRecord currentlyBorrowed;
 	
 	public Item(String id, String title, String genre, String description) {
@@ -42,5 +42,7 @@ public abstract class Item {
 		return id;
 	}
 	
-
+	public boolean isCurrentlyBorrowed() {
+		return isCurrentlyBorrowed;
+	}
 }
