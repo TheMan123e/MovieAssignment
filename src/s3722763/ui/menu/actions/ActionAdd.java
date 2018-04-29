@@ -42,7 +42,7 @@ public class ActionAdd extends Action {
 		System.out.print("Enter title: ");
 		String title = in.nextLine();
 		
-		System.out.print("Enter genre");
+		System.out.print("Enter genre: ");
 		String genre = in.nextLine();
 		
 		System.out.print("Enter description: ");

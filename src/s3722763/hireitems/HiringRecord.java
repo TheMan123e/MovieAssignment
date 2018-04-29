@@ -24,8 +24,10 @@ public class HiringRecord {
 	
 	public String getDetailsFormatted() {
 		String result = "";
-		result += String.format("Hire ID: %4s%s\n", " ", id);
-		result += String.format("Borrow Date: %s\n", borrowDate.toString());
+		result += String.format("%16sHire ID: %4s%s\n", " ", " ", id);
+		result += String.format("%16sBorrow Date: %s\n", " ", borrowDate.toString());
+		
+		result += String.format("%s%16s\n", " ", "-");
 		
 		if (hasBeenReturned) {
 			//Seperated to make it easier to read
@@ -36,8 +38,9 @@ public class HiringRecord {
 			double totalFee = rentalFee + lateFee;
 			
 			result += String.format("Total Fee: %s $%1.2f\n", " ", totalFee);
+			result += String.format("%s%18s\n", " ", "-");
 		}
-		
+
 		return result;
 	}
 	

@@ -22,6 +22,7 @@ public class Movie extends Item {
 		this.isNewRelease = newRelease;
 	}
 	
+	@Override
 	public double borrow(String memberID) {
 		double fee = Double.NaN;
 		
@@ -33,6 +34,7 @@ public class Movie extends Item {
 			
 			getHireHistory()[index] = hr;
 			currentlyBorrowed = hr;
+			isCurrentlyBorrowed = true;
 			
 			fee = hr.getRentalFee();
 			
@@ -44,6 +46,7 @@ public class Movie extends Item {
 		return fee;
 	}
 	
+	@Override
 	public double returnItem(DateTime returnDate) {
 		double fee = 0;
 		
@@ -52,6 +55,9 @@ public class Movie extends Item {
 			
 			if (daysBorrowed > 0) {
 				fee = calculateFee(daysBorrowed);
+				currentlyBorrowed.returnItem(returnDate, fee);
+				
+				isCurrentlyBorrowed = false;
 			} else {
 				System.out.println("The resulting days in negative, you can't give back a movie before you borrowed it");
 				fee = Double.NaN;
@@ -80,26 +86,6 @@ public class Movie extends Item {
 		return fee;
 	}
 	
-	private int indexOfOldest() {
-		DateTime now = new DateTime();
-		int index = 0;
-		int difference = 0;
-		
-		//TODO: Check if there is an index with nothing there, if so then put the hire into that index
-		for (int i = 0; i < hireHistory.length; i++) {
-			if (hireHistory[i] != null) {
-				int tempDifference = DateTime.diffDays(now, hireHistory[i].getDateReturned());
-				System.out.println(tempDifference);
-				if (tempDifference > difference) {
-					difference = tempDifference;
-					index = i;
-				}
-			}
-		}
-		
-		return index;
-	}
-	
 	public String toString() {
 		String result = id + ":" + title + ":" + description + ":" + genre + ":" + STANDARD_RENTAL_FEE + ":";
 		
@@ -121,23 +107,36 @@ public class Movie extends Item {
 	@Override
 	public String getDetails() {
 		String result = "";
-		result += String.format("ID:%10s%s\n", " ", id);
+		result += String.format("ID:%13s%s\n", " ", id);
 		result += String.format("Title:%10s%s\n", " ", title);
 		result += String.format("Genre:%10s%s\n", " ", genre);
-		result += String.format("Description:%10s%s\n", " ", description);
-		result += String.format("Standard Fee:%10s$%s\n", " ", String.valueOf(fee));
-		result += String.format("On loan:%5s%b\n", " ", isCurrentlyBorrowed());
+		result += String.format("Description:%4s%s\n", " ", description);
+		result += String.format("Standard Fee:%3s$%s\n", " ", String.valueOf(fee));
+		result += String.format("On loan:%8s%b\n", " ", isCurrentlyBorrowed());
 		
 		if (isNewRelease) {
-			result += String.format("Movie Type:%10s%s\n", " ", "New Release");
-			result += String.format("Rental Period:%10s%s\n", " ", String.valueOf(MAX_DAYS_NEW) + " days");
+			result += String.format("Movie Type:%5s%s\n", " ", "New Release");
+			result += String.format("Rental Period:%2s%s\n", " ", String.valueOf(MAX_DAYS_NEW) + " days");
 		} else {
-			result += String.format("Movie Type:%10s%s\n", " ", "Weekly");
-			result += String.format("Rental Period:%10s%s\n", " ", String.valueOf(MAX_DAYS) + " days");
+			result += String.format("Movie Type:%5s%s\n", " ", "Weekly");
+			result += String.format("Rental Period:%2s%s\n", " ", String.valueOf(MAX_DAYS) + " days");
 		}
 		
 		result += getFormattedRecord();
 		
 		return result;
+	}
+
+	@Override
+	public DateTime getDateToReturn() {
+		DateTime dt;
+		
+		if (isNewRelease) {
+			dt = new DateTime(currentlyBorrowed.getDateBorrowed(), MAX_DAYS_NEW);
+		} else {
+			dt = new DateTime(currentlyBorrowed.getDateBorrowed(), MAX_DAYS);
+		}
+		
+		return dt;
 	}
 }

@@ -6,6 +6,7 @@ import s3722763.ui.menu.actions.Action;
 import s3722763.ui.menu.actions.ActionAdd;
 import s3722763.ui.menu.actions.ActionBorrow;
 import s3722763.ui.menu.actions.ActionDisplay;
+import s3722763.ui.menu.actions.ActionReturn;
 import s3722763.ui.menu.actions.ActionSeedData;
 import s3722763.ui.menu.items.MenuItem;
 
@@ -20,16 +21,19 @@ public class Menu {
 		menuItems[0] = ami;
 		//2 - Borrow
 		ActionBorrow ab = new ActionBorrow();
-		MenuItem bmi = new MenuItem("Borrow Item", "B", 12, ab);
+		MenuItem bmi = new MenuItem("Borrow Item", "B", 9, ab);
 		menuItems[1] = bmi;
 		//3 - Return
+		ActionReturn ar = new ActionReturn();
+		MenuItem ari = new MenuItem("Return Item", "C", 9, ar);
+		menuItems[2] = ari;
 		//4 - Display details
 		ActionDisplay ad  = new ActionDisplay();
-		MenuItem dmi = new MenuItem("Display details", "D", 0, ad);
+		MenuItem dmi = new MenuItem("Display details", "D", 5, ad);
 		menuItems[3] = dmi;
 		//5 - Seed Data
 		ActionSeedData asd = new ActionSeedData();
-		MenuItem emi = new MenuItem("Seed data", "E", 0, asd);
+		MenuItem emi = new MenuItem("Seed data", "E", 11, asd);
 		menuItems[4] = emi;
 		//6 - Exit program
 	}

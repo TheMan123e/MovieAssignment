@@ -1,4 +1,4 @@
-package s3722763.ui.menu.actions;
+ package s3722763.ui.menu.actions;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ public class ActionBorrow extends Action {
 	@Override
 	public ActionResult act(Item[] items) {
 		Scanner input = new Scanner(System.in);
-		System.out.println("Enter ID: ");
+		System.out.print("Enter ID: ");
 		String id = input.nextLine();
 		Item toRent = null;
 		
@@ -25,14 +25,23 @@ public class ActionBorrow extends Action {
 		
 		if (toRent == null) {
 			//TODO: Throw exception
+			System.out.println("Item " + id + " does not exist");
+			return ActionResult.FAILURE;
 		} else if (toRent.isCurrentlyBorrowed()) {
+			System.out.println("Item " + id + " is already borrowed");
+			return ActionResult.FAILURE;
 			//TODO: Throw exception
 		}
 		
-		System.out.println("Enter Member ID: ");
+		System.out.print("Enter Member ID: ");
 		String memID = input.nextLine();
-		System.out.println("Advance borrow (days): ");
+		System.out.print("Advance borrow (days): ");
 		int advBorrow = input.nextInt();
+		//TODO: Need to know what advBorrow does
+		double fee = toRent.borrow(memID);
+		System.out.println("The item " + toRent.getTitle() + " costs " + fee + " and is due on: " + toRent.getDateToReturn().getFormattedDate());
+		
+		return ActionResult.SUCCESS;
 	}
 
 }
