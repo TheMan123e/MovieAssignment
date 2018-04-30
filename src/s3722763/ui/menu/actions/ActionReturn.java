@@ -14,17 +14,22 @@ public class ActionReturn extends Action {
 	public ActionResult act(Item[] items) {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Enter ID: ");
-		String id = in.nextLine().toUpperCase();
+		String id = "M_" + in.nextLine().toUpperCase();
 		Item toReturn = null;
 		
 		for (Item i : items) {
-			if (i.getID().equals(id)) {
-				toReturn = i;
+			if (i != null) {
+				if (i.getID().equals(id)) {
+					toReturn = i;
+				}
 			}
 		}
 		
 		if (toReturn == null) {
 			System.out.println("Item with id " + id + " does not exist");
+			return ActionResult.FAILURE;
+		} else if (!toReturn.isCurrentlyBorrowed()) {
+			System.out.println("Item" + id + " is not currently borrowed");
 			return ActionResult.FAILURE;
 		}
 		
@@ -36,8 +41,12 @@ public class ActionReturn extends Action {
 			return ActionResult.FAILURE;
 		} 
 		
+		//TODO: Change so it uses the day borrowed not todays date
+		
 		double fee = toReturn.returnItem(new DateTime(days));
-		System.out.println("The total fee payable is $" + fee);
+		String forFee = String.format("%1.2f", fee);
+		
+		System.out.println("The total fee payable is $" + forFee);
 		return ActionResult.SUCCESS;
 	}
 	

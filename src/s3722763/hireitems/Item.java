@@ -22,6 +22,16 @@ public abstract class Item {
 		this.hireHistory = new HiringRecord[10];
 	}
 	
+	public DateTime getDayBorrowed() {
+		if (!isCurrentlyBorrowed) {
+			System.out.println("Movie is not currently borrowed");
+			return null;
+		}
+		
+		int index = indexOfNewest();
+		return hireHistory[index].getDateBorrowed();
+	}
+	
 	protected String getFormattedRecord() {
 		String result = "";
 		result += String.format("%16s%s\n", " ", "BORROWING RECORD");
@@ -47,6 +57,25 @@ public abstract class Item {
 		return result;
 	}
 	
+	private int indexOfNewest() {
+		DateTime now = new DateTime();
+		int index = 0;
+		int difference = 0;
+		
+		//TODO: Check if there is an index with nothing there, if so then put the hire into that index
+		for (int i = 0; i < hireHistory.length; i++) {
+			if (hireHistory[i] != null) {
+				int tempDifference = DateTime.diffDays(now, hireHistory[i].getDateBorrowed());
+				if (tempDifference < difference) {
+					difference = tempDifference;
+					index = i;
+				}
+			}
+		}
+		
+		return index;
+	}
+	
 	protected int indexOfOldest() {
 		DateTime now = new DateTime();
 		int index = 0;
@@ -56,13 +85,12 @@ public abstract class Item {
 		for (int i = 0; i < hireHistory.length; i++) {
 			if (hireHistory[i] != null) {
 				int tempDifference = DateTime.diffDays(now, hireHistory[i].getDateReturned());
-				System.out.println(tempDifference);
 				if (tempDifference > difference) {
 					difference = tempDifference;
 					index = i;
 				}
 			} else {
-				//Means not all of the 10 places in the array are filled so can get the position of the null
+				//Means not all of the 10 places in the array are filled so can get the position 
 				index = i;
 				break;
 			}

@@ -11,10 +11,14 @@ public class ActionSeedData extends Action{
 
 	@Override
 	public ActionResult act(Item[] items) {
-		tempRentalItems = new Item[1];
+		tempRentalItems = new Item[10];
+		//Weekly movies
+		Movie movie1 = new Movie("M_MOV", "movie", "film", "description", false);
+		tempRentalItems[0] = movie1;
 		
-		Movie movie = new Movie("MOS", "Man of Steel", "Action", "description", true);
-		tempRentalItems[0] = movie;
+		//New Releases
+		Movie movie = new Movie("M_MOS", "Man of Steel", "Action", "description", true);
+		tempRentalItems[1] = movie;
 		
 		return ActionResult.SUCCESS;
 	}

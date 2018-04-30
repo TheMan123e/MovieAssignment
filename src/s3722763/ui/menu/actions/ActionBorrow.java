@@ -13,13 +13,15 @@ public class ActionBorrow extends Action {
 	public ActionResult act(Item[] items) {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter ID: ");
-		String id = input.nextLine().toUpperCase();
+		String id = "M_" + input.nextLine().toUpperCase();
 		Item toRent = null;
 		
 		//TODO: Accept Lower case or mix
 		for(Item i : items) {
-			if(i.getID().equals(id)) {
-				toRent = i;
+			if (i != null) {
+				if(i.getID().equals(id)) {
+					toRent = i;
+				}
 			}
 		}
 		
@@ -38,8 +40,11 @@ public class ActionBorrow extends Action {
 		System.out.print("Advance borrow (days): ");
 		int advBorrow = input.nextInt();
 		//TODO: Need to know what advBorrow does
+		//Will rent x nuber of days from now
 		double fee = toRent.borrow(memID);
-		System.out.println("The item " + toRent.getTitle() + " costs " + fee + " and is due on: " + toRent.getDateToReturn().getFormattedDate());
+		String forFee = String.format("%1.2f", fee);
+		
+		System.out.println("The item " + toRent.getTitle() + " costs $" + forFee + " and is due on: " + toRent.getDateToReturn().getFormattedDate());
 		
 		return ActionResult.SUCCESS;
 	}

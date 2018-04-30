@@ -3,9 +3,7 @@ import s3722763.util.DateTime;
 
 public class Movie extends Item {
 	private boolean isNewRelease;
-	
-	//TODO: Set to something else
-	private final double NEW_RELEASE_SURCHARGE = 10;
+
 	private final int MAX_DAYS_NEW = 2;
 	private final int MAX_DAYS = 7;
 	private final double STANDARD_RENTAL_FEE_NEW = 5;
@@ -21,7 +19,7 @@ public class Movie extends Item {
 		super(id, title, genre, description);
 		this.isNewRelease = newRelease;
 	}
-	
+
 	@Override
 	public double borrow(String memberID) {
 		double fee = Double.NaN;
@@ -86,7 +84,6 @@ public class Movie extends Item {
 		
 		if (isNewRelease) {
 			daysOver = days - MAX_DAYS_NEW;
-			fee += NEW_RELEASE_SURCHARGE;
 		} else {
 			daysOver = days - MAX_DAYS;
 		}
@@ -98,7 +95,6 @@ public class Movie extends Item {
 	
 	public String toString() {
 		String result = id + ":" + title + ":" + description + ":" + genre + ":";
-		//TODO: Get rid of this
 		if (isNewRelease)
 			result += STANDARD_RENTAL_FEE_NEW + ":";
 		else {
@@ -129,12 +125,16 @@ public class Movie extends Item {
 		result += String.format("Description:%4s%s\n", " ", description);
 		
 		if (isNewRelease) {
-			result += String.format("Standard Fee:%3s$%f\n", " ", STANDARD_RENTAL_FEE_NEW);
+			result += String.format("Standard Fee:%3s$%1.2f\n", " ", STANDARD_RENTAL_FEE_NEW);
 		} else {
-			result += String.format("Standard Fee:%3s$%f\n", " ", STANDARD_RENTAL_FEE);
+			result += String.format("Standard Fee:%3s$%1.2f\n", " ", STANDARD_RENTAL_FEE);
 		}
 		
-		result += String.format("On loan:%8s%b\n", " ", isCurrentlyBorrowed());
+		if (isCurrentlyBorrowed()) {
+			result += String.format("On loan:%8s%s\n", " ", "YES");
+		} else {
+			result += String.format("On loan:%8s%s\n", " ", "NO");
+		}
 		
 		if (isNewRelease) {
 			result += String.format("Movie Type:%5s%s\n", " ", "New Release");

@@ -51,7 +51,7 @@ public class ActionAdd extends Action {
 		boolean release = false;
 		boolean isNewRelease = false;
 		while (!release) {
-			System.out.print("Enter new release (Y/N)");
+			System.out.print("Enter new release (Y/N): ");
 			String newRelease = in.nextLine();
 			
 			if (newRelease.toLowerCase().equals("y")) {

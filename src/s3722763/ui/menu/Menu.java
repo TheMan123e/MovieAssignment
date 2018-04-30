@@ -6,6 +6,7 @@ import s3722763.ui.menu.actions.Action;
 import s3722763.ui.menu.actions.ActionAdd;
 import s3722763.ui.menu.actions.ActionBorrow;
 import s3722763.ui.menu.actions.ActionDisplay;
+import s3722763.ui.menu.actions.ActionExit;
 import s3722763.ui.menu.actions.ActionReturn;
 import s3722763.ui.menu.actions.ActionSeedData;
 import s3722763.ui.menu.items.MenuItem;
@@ -16,26 +17,29 @@ public class Menu {
 	public Menu() {
 		menuItems = new MenuItem[6];
 		//1 - Add
-		ActionAdd aa = new ActionAdd();
-		MenuItem ami = new MenuItem("Add Item", "A", 12, aa);
-		menuItems[0] = ami;
+		ActionAdd actionAdd = new ActionAdd();
+		MenuItem addMenuItem = new MenuItem("Add Item", "A", 12, actionAdd);
+		menuItems[0] = addMenuItem;
 		//2 - Borrow
-		ActionBorrow ab = new ActionBorrow();
-		MenuItem bmi = new MenuItem("Borrow Item", "B", 9, ab);
-		menuItems[1] = bmi;
+		ActionBorrow actionBorrow = new ActionBorrow();
+		MenuItem  borrowMenuItem = new MenuItem("Borrow Item", "B", 9, actionBorrow);
+		menuItems[1] = borrowMenuItem;
 		//3 - Return
-		ActionReturn ar = new ActionReturn();
-		MenuItem ari = new MenuItem("Return Item", "C", 9, ar);
-		menuItems[2] = ari;
+		ActionReturn actionReturn = new ActionReturn();
+		MenuItem returnMenuItem = new MenuItem("Return Item", "C", 9, actionReturn);
+		menuItems[2] = returnMenuItem;
 		//4 - Display details
-		ActionDisplay ad  = new ActionDisplay();
-		MenuItem dmi = new MenuItem("Display details", "D", 5, ad);
-		menuItems[3] = dmi;
+		ActionDisplay actionDisplay  = new ActionDisplay();
+		MenuItem displayMenuItem = new MenuItem("Display details", "D", 5, actionDisplay);
+		menuItems[3] = displayMenuItem;
 		//5 - Seed Data
-		ActionSeedData asd = new ActionSeedData();
-		MenuItem emi = new MenuItem("Seed data", "E", 11, asd);
-		menuItems[4] = emi;
+		ActionSeedData actionSeedData = new ActionSeedData();
+		MenuItem seedDataMenuItem = new MenuItem("Seed data", "E", 11, actionSeedData);
+		menuItems[4] = seedDataMenuItem;
 		//6 - Exit program
+		ActionExit actionExit = new ActionExit();
+		MenuItem exitMenuItem = new MenuItem("Exit Program", "X", 8, actionExit);
+		menuItems[5] = exitMenuItem;
 	}
 	
 	public void displayStart() {
@@ -54,6 +58,7 @@ public class Menu {
 	public Action getActionFromInput() {
 		Scanner input = new Scanner(System.in);
 		String key = null;
+		System.out.print("Enter selection: ");
 		
 		key = input.nextLine();
 		
