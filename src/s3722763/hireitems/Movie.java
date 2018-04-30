@@ -10,8 +10,8 @@ public class Movie extends Item {
 	private final int MAX_DAYS = 7;
 	private final double STANDARD_RENTAL_FEE_NEW = 5;
 	private final double STANDARD_RENTAL_FEE = 3;
+	
 	/**
-	 * 
 	 * @param id M_id
 	 * @param title
 	 * @param genre
@@ -29,7 +29,7 @@ public class Movie extends Item {
 		if (!isCurrentlyBorrowed()) {
 			int index = indexOfOldest();
 			HiringRecord hr = new HiringRecord();
-			//TODO: See if this changes with new release
+			
 			if (isNewRelease) {
 				hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE_NEW);
 			} else {
