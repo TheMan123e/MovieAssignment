@@ -13,7 +13,7 @@ public class ActionBorrow extends Action {
 	public ActionResult act(Item[] items) {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter ID: ");
-		String id = input.nextLine();
+		String id = input.nextLine().toUpperCase();
 		Item toRent = null;
 		
 		//TODO: Accept Lower case or mix
@@ -34,7 +34,7 @@ public class ActionBorrow extends Action {
 		}
 		
 		System.out.print("Enter Member ID: ");
-		String memID = input.nextLine();
+		String memID = input.nextLine().toUpperCase();
 		System.out.print("Advance borrow (days): ");
 		int advBorrow = input.nextInt();
 		//TODO: Need to know what advBorrow does

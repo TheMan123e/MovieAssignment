@@ -27,8 +27,6 @@ public class HiringRecord {
 		result += String.format("%16sHire ID: %4s%s\n", " ", " ", id);
 		result += String.format("%16sBorrow Date: %s\n", " ", borrowDate.toString());
 		
-		result += String.format("%s%16s\n", " ", "-");
-		
 		if (hasBeenReturned) {
 			//Seperated to make it easier to read
 			result += String.format("Return Date: %s\n", borrowDate.toString());
@@ -38,7 +36,7 @@ public class HiringRecord {
 			double totalFee = rentalFee + lateFee;
 			
 			result += String.format("Total Fee: %s $%1.2f\n", " ", totalFee);
-			result += String.format("%s%18s\n", " ", "-");
+			result += String.format("%s%17s\n", " ", "-");
 		}
 
 		return result;

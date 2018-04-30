@@ -8,8 +8,8 @@ public class Movie extends Item {
 	private final double NEW_RELEASE_SURCHARGE = 10;
 	private final int MAX_DAYS_NEW = 2;
 	private final int MAX_DAYS = 7;
-	private final double STANDARD_RENTAL_FEE = 1;
-	
+	private final double STANDARD_RENTAL_FEE_NEW = 5;
+	private final double STANDARD_RENTAL_FEE = 3;
 	/**
 	 * 
 	 * @param id M_id
@@ -30,7 +30,11 @@ public class Movie extends Item {
 			int index = indexOfOldest();
 			HiringRecord hr = new HiringRecord();
 			//TODO: See if this changes with new release
-			hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE);
+			if (isNewRelease) {
+				hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE_NEW);
+			} else {
+				hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE);
+			}
 			
 			getHireHistory()[index] = hr;
 			currentlyBorrowed = hr;
@@ -67,6 +71,12 @@ public class Movie extends Item {
 			fee = Double.NaN;
 		}
 		
+		if (!isCurrentlyBorrowed) {
+			//Means the above loop could return item
+			int index = indexOfOldest();
+			hireHistory[index] = new HiringRecord();
+		}
+		
 		return fee;
 	}
 	
@@ -87,7 +97,13 @@ public class Movie extends Item {
 	}
 	
 	public String toString() {
-		String result = id + ":" + title + ":" + description + ":" + genre + ":" + STANDARD_RENTAL_FEE + ":";
+		String result = id + ":" + title + ":" + description + ":" + genre + ":";
+		//TODO: Get rid of this
+		if (isNewRelease)
+			result += STANDARD_RENTAL_FEE_NEW + ":";
+		else {
+			result += STANDARD_RENTAL_FEE + ":";	
+		}
 		
 		if (isNewRelease) {
 			result += "NR";
@@ -111,7 +127,13 @@ public class Movie extends Item {
 		result += String.format("Title:%10s%s\n", " ", title);
 		result += String.format("Genre:%10s%s\n", " ", genre);
 		result += String.format("Description:%4s%s\n", " ", description);
-		result += String.format("Standard Fee:%3s$%s\n", " ", String.valueOf(fee));
+		
+		if (isNewRelease) {
+			result += String.format("Standard Fee:%3s$%f\n", " ", STANDARD_RENTAL_FEE_NEW);
+		} else {
+			result += String.format("Standard Fee:%3s$%f\n", " ", STANDARD_RENTAL_FEE);
+		}
+		
 		result += String.format("On loan:%8s%b\n", " ", isCurrentlyBorrowed());
 		
 		if (isNewRelease) {

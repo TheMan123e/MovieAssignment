@@ -14,7 +14,7 @@ public class ActionReturn extends Action {
 	public ActionResult act(Item[] items) {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Enter ID: ");
-		String id = in.nextLine();
+		String id = in.nextLine().toUpperCase();
 		Item toReturn = null;
 		
 		for (Item i : items) {

@@ -26,10 +26,22 @@ public abstract class Item {
 		String result = "";
 		result += String.format("%16s%s\n", " ", "BORROWING RECORD");
 		result += String.format("%17s\n", "-");
+		//Will become true is rented atleast once
+		boolean hasBeenRented = false; 
+		
 		for(HiringRecord hr : hireHistory) {
 			if (hr != null) {
-				result += hr.getDetailsFormatted();
+				if (hr.hasBeenReturned() || hr.getDateBorrowed() != null) {
+					result += hr.getDetailsFormatted();
+					hasBeenRented = true;
+				}
 			}
+		}
+		
+		if (!hasBeenRented) {
+			result = "";
+			result += String.format("%16s%s\n", " ", "BORROWING RECORD");
+			result += String.format("%16s%s\n", " ", "NONE");
 		}
 		
 		return result;
@@ -49,6 +61,10 @@ public abstract class Item {
 					difference = tempDifference;
 					index = i;
 				}
+			} else {
+				//Means not all of the 10 places in the array are filled so can get the position of the null
+				index = i;
+				break;
 			}
 		}
 		
