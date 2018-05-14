@@ -1,6 +1,7 @@
 package s3722763.ui.menu.actions;
 
 import s3722763.hireitems.Item;
+import s3722763.util.exceptions.IdException;
 
 public abstract class Action {
 	private String name;
@@ -12,7 +13,7 @@ public abstract class Action {
 	
 	protected String reasonForFailure;
 	
-	public abstract ActionResult act(Item[] items);
+	public abstract ActionResult act(Item[] items) throws Exception;
 	
 	public Item[] getUpdatedList() {
 		return tempRentalItems;

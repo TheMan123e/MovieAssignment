@@ -3,6 +3,8 @@
 import java.util.Scanner;
 
 import s3722763.hireitems.Item;
+import s3722763.util.exceptions.BorrowException;
+import s3722763.util.exceptions.IdException;
 
 public class ActionBorrow extends Action {
 	public ActionBorrow() {
@@ -10,7 +12,7 @@ public class ActionBorrow extends Action {
 	}
 	
 	@Override
-	public ActionResult act(Item[] items) {
+	public ActionResult act(Item[] items) throws Exception{
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter ID: ");
 		String id = "M_" + input.nextLine().toUpperCase();
@@ -26,13 +28,9 @@ public class ActionBorrow extends Action {
 		}
 		
 		if (toRent == null) {
-			//TODO: Throw exception
-			System.out.println("Item " + id + " does not exist");
-			return ActionResult.FAILURE;
+			throw new IdException("doesn't exist");
 		} else if (toRent.isCurrentlyBorrowed()) {
-			System.out.println("Item " + id + " is already borrowed");
-			return ActionResult.FAILURE;
-			//TODO: Throw exception
+			throw new BorrowException(toRent.getTitle(), "already borrowed");
 		}
 		
 		System.out.print("Enter Member ID: ");

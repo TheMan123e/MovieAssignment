@@ -2,6 +2,7 @@ package s3722763.ui.menu.actions;
 
 import s3722763.hireitems.Item;
 import s3722763.hireitems.Movie;
+import s3722763.util.DateTime;
 
 public class ActionSeedData extends Action{
 
@@ -18,6 +19,8 @@ public class ActionSeedData extends Action{
 		
 		//New Releases
 		Movie movie = new Movie("M_MOS", "Man of Steel", "Action", "description", true);
+		movie.borrow("MEM");
+		movie.returnItem(new DateTime(5));
 		tempRentalItems[1] = movie;
 		
 		return ActionResult.SUCCESS;

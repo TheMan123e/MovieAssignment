@@ -10,8 +10,7 @@ public class ActionExit extends Action {
 
 	@Override
 	public ActionResult act(Item[] items) {
-		System.exit(0);
-		return null;
+		return ActionResult.END_PROGRAM;
 	}
 
 }

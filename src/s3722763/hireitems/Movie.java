@@ -148,6 +148,11 @@ public class Movie extends Item {
 		
 		return result;
 	}
+	
+	public void addToHiringRecord(HiringRecord hr) {
+		int index = indexOfOldest();
+		hireHistory[index] = hr;
+ 	}
 
 	@Override
 	public DateTime getDateToReturn() {

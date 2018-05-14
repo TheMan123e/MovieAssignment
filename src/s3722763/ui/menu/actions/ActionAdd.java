@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import s3722763.hireitems.Item;
 import s3722763.hireitems.Movie;
+import s3722763.util.exceptions.IdException;
 
 //TODO: Add case for game and movie (Seperate them) as the following only covers movies
 public class ActionAdd extends Action {
@@ -12,7 +13,7 @@ public class ActionAdd extends Action {
 	}
 	
 	@Override
-	public ActionResult act(Item[] items) {
+	public ActionResult act(Item[] items) throws IdException {
 		tempRentalItems = items;
 		Item createdItem;
 		
@@ -29,11 +30,9 @@ public class ActionAdd extends Action {
 		boolean alreadyAdded = checkID(id, items);
 		
 		if (alreadyAdded) {
-			reasonForFailure = "Item already exists";
-			return ActionResult.FAILURE;
+			throw new IdException("exists");
 		} else if (id.length() != 3) {
-			reasonForFailure = "ID needs to be 3 characters";
-			return ActionResult.FAILURE;
+			throw new IdException("needs 3 characters");
 		}
 		
 		//For movie
@@ -70,8 +69,6 @@ public class ActionAdd extends Action {
 		
 		return ActionResult.SUCCESS;
 	}
-	
-
 	
 	public void addItemToRentalList(Item item) {
 		int emptyIndex = -1;
