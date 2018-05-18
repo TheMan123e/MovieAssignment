@@ -10,7 +10,6 @@ public abstract class Item {
 	protected String genre;
 	protected double fee;
 	protected HiringRecord[] hireHistory;
-	protected boolean isCurrentlyBorrowed;
 	protected HiringRecord currentlyBorrowed;
 	
 	public Item(String id, String title, String genre, String description) {
@@ -23,7 +22,7 @@ public abstract class Item {
 	}
 	
 	public DateTime getDayBorrowed() {
-		if (!isCurrentlyBorrowed) {
+		if (!isCurrentlyBorrowed()) {
 			System.out.println("Movie is not currently borrowed");
 			return null;
 		}
@@ -113,10 +112,14 @@ public abstract class Item {
 	}
 	
 	public boolean isCurrentlyBorrowed() {
-		return isCurrentlyBorrowed;
+		return currentlyBorrowed != null;
 	}
 
 	public String getTitle() {
 		return title;
+	}
+	
+	public void setCurrentlyBorrowed(HiringRecord hr) {
+		this.currentlyBorrowed = hr;
 	}
 }

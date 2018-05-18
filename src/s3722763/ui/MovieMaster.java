@@ -11,7 +11,7 @@ import s3722763.ui.menu.actions.ActionResult;
 import s3722763.util.FileHandler;
 
 public class MovieMaster {	
-	private final String DELIMITER = "#";
+	private final String DELIMITER = ":/";
 	private Item[] rentalItems;
 	private Menu menu;
 	
@@ -89,20 +89,30 @@ public class MovieMaster {
 				
 				String rentalData = fileHandler.load(movie.getID() + "_hiring_info");
 				if (!rentalData.equals("")) {
-					String[] rental = rentalData.split(fileHandler.getDelimiter());
+					String[] rental = rentalData.split(DELIMITER);
 					for(String s : rental) {
 						//String id, String memberID, double rentalFee) 
 						String[] elements = s.split(":");
 						if (!elements[0].equals("null")) {
-							HiringRecord hr = new HiringRecord(elements[0], Integer.valueOf(elements[1]),
-									Double.valueOf(elements[2]), Double.valueOf(elements[3]));
-							movie.addToHiringRecord(hr);
+							HiringRecord hr = null;
+							
+							if (!elements[1].equals("none")) {
+								//Means that the item has returned
+								hr = new HiringRecord(elements[0], Integer.valueOf(elements[1]),
+										Double.valueOf(elements[2]), Double.valueOf(elements[3]));
+							} else {
+								hr = new HiringRecord(elements[0]);
+								movie.setCurrentlyBorrowed(hr);
+							}
+							if (hr != null) {
+								movie.addToHiringRecord(hr);
+							}
 						}
 					}
 				}
 				
-				HiringRecord hr = new HiringRecord();
-				movie.addToHiringRecord(hr);
+				//HiringRecord hr = new HiringRecord();
+				//movie.addToHiringRecord(hr);
 				
 				addItemToRentalList(movie);
 			}
@@ -126,7 +136,7 @@ public class MovieMaster {
 				
 				for(HiringRecord hr : hireInfo) {
 					if (hr != null) {
-						hiringInfo += hr.toString() + fileHandler.getDelimiter();
+						hiringInfo += hr.toString() + DELIMITER;
 					}
 				}
 				

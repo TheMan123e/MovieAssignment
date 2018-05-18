@@ -38,7 +38,7 @@ public class ActionBorrow extends Action {
 		System.out.print("Advance borrow (days): ");
 		int advBorrow = input.nextInt();
 		//TODO: Need to know what advBorrow does
-		//Will rent x nuber of days from now
+		//Will rent x number of days from now
 		double fee = toRent.borrow(memID);
 		String forFee = String.format("%1.2f", fee);
 		

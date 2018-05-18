@@ -92,6 +92,14 @@ public class DateTime
 		time = date.getTime();
 	}
 	
+	public void setDate(int time) {
+		int day = (int) (time / Math.pow(10, 6));
+		int month = (int) (time / Math.pow(10, 4)) - (day * 100);
+		int daymonth = (int)(time / Math.pow(10, 4));
+		int year = (int) (time - (daymonth * Math.pow(10, 4)));
+		setDate(day, month, year);
+	}
+	
 	// Advances date/time by specified days, hours and mins for testing purposes
 		public void setAdvance(int days, int hours, int mins)
 		{

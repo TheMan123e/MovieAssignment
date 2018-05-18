@@ -23,7 +23,7 @@ public class Movie extends Item {
 	@Override
 	public double borrow(String memberID) {
 		double fee = Double.NaN;
-		
+		boolean borrowed = isCurrentlyBorrowed();
 		if (!isCurrentlyBorrowed()) {
 			int index = indexOfOldest();
 			HiringRecord hr = new HiringRecord();
@@ -36,7 +36,6 @@ public class Movie extends Item {
 			
 			getHireHistory()[index] = hr;
 			currentlyBorrowed = hr;
-			isCurrentlyBorrowed = true;
 			
 			fee = hr.getRentalFee();
 			
@@ -59,7 +58,6 @@ public class Movie extends Item {
 				fee = calculateFee(daysBorrowed);
 				currentlyBorrowed.returnItem(returnDate, fee);
 				
-				isCurrentlyBorrowed = false;
 			} else {
 				System.out.println("The resulting days in negative, you can't give back a movie before you borrowed it");
 				fee = Double.NaN;
@@ -69,7 +67,7 @@ public class Movie extends Item {
 			fee = Double.NaN;
 		}
 		
-		if (!isCurrentlyBorrowed) {
+		if (!isCurrentlyBorrowed()) {
 			//Means the above loop could return item
 			int index = indexOfOldest();
 			hireHistory[index] = new HiringRecord();

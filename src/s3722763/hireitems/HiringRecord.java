@@ -9,6 +9,13 @@ public class HiringRecord {
 	private DateTime returnDate;
 	
 	public HiringRecord() {}
+	
+	/**
+	 * @param id
+	 * @param dateReturned
+	 * @param rentalFee
+	 * @param lateFee
+	 */
 	public HiringRecord(String id, int dateReturned, double rentalFee, double lateFee) {
 		String[] idElements = id.split("_");
 		String dateBorrowedStr = idElements[3];
@@ -17,10 +24,26 @@ public class HiringRecord {
 		this.id = id;
 		this.rentalFee = rentalFee;
 		this.lateFee = lateFee;
-		borrowDate = getDateFromInt(dateBorrowed);
-		returnDate = getDateFromInt(dateReturned);
+		borrowDate = new DateTime();
+		borrowDate.setDate(dateBorrowed);
+		returnDate = new DateTime();
+		returnDate.setDate(dateReturned);
 	}
 	
+	public HiringRecord(String id) {
+		String[] idElements = id.split("_");
+		String dateBorrowedStr = idElements[3];
+		int dateBorrowed = Integer.parseInt(dateBorrowedStr);
+		this.id = id;
+		borrowDate = new DateTime();
+		borrowDate.setDate(dateBorrowed);
+	}
+	
+	/**
+	 * @param id
+	 * @param memberID
+	 * @param rentalFee
+	 */
 	public void borrowItem(String id, String memberID, double rentalFee) {
 		this.rentalFee = rentalFee;
 		this.borrowDate = new DateTime();
@@ -78,14 +101,5 @@ public class HiringRecord {
 	
 	public double getRentalFee() {
 		return rentalFee;
-	}
-	
-	//TODO: Fix calculates wrong datetime
-	public DateTime getDateFromInt(int date) {
-		int day = date / 1000000;
-		int month = (date / 10000) - (day * 1000000);
-		int year = date - (day * 1000000) - (month * 10000);
-		
-		return new DateTime(day, month, year);
 	}
 }

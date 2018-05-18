@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 //TODO: Add support for backups
 public class FileHandler {
-	private final String DELIMITER = ":/";
+	private final String DELIMITER = ":";
 	public String load(String fileName) throws IOException{
 		File file = new File(fileName);
 		
@@ -23,7 +23,7 @@ public class FileHandler {
 		Scanner input = new Scanner(file);
 		
 		String result = "";
-		
+		input.useDelimiter("");
 		while(input.hasNext()) {
 			 result += input.next();
 		}
@@ -64,6 +64,7 @@ public class FileHandler {
 			}
 			
 			out = new PrintWriter(new FileOutputStream(fileName));
+			String a = toSave.toString();
 			out.write(toSave.toString());
 			out.close();
 		} catch (FileNotFoundException e) {
@@ -72,16 +73,6 @@ public class FileHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	/*public void save(Object[] toSave, String fileName) {
-		String text = "";
-		
-		for(Object o : toSave) {
-			text += o.toString() + DELIMITER;
-		}
-		
-		save(text, fileName);
-	}*/
 	
 	public String getDelimiter() {
 		return DELIMITER;
