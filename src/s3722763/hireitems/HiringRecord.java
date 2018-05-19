@@ -8,6 +8,7 @@ public class HiringRecord {
 	private DateTime borrowDate;
 	private DateTime returnDate;
 	
+	//TODO: Remove eventually
 	public HiringRecord() {}
 	
 	/**
