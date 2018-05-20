@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import s3722763.hireitems.Item;
 import s3722763.util.DateTime;
+import s3722763.util.exceptions.BorrowException;
 
 public class ActionReturn extends Action {
 	public ActionReturn() {
@@ -11,7 +12,7 @@ public class ActionReturn extends Action {
 	}
 
 	@Override
-	public ActionResult act(Item[] items) {
+	public ActionResult act(Item[] items) throws BorrowException{
 		Scanner in = new Scanner(System.in);
 		System.out.print("Enter ID: ");
 		String id = "M_" + in.nextLine().toUpperCase();
@@ -29,8 +30,8 @@ public class ActionReturn extends Action {
 			System.out.println("Item with id " + id + " does not exist");
 			return ActionResult.FAILURE;
 		} else if (!toReturn.isCurrentlyBorrowed()) {
-			System.out.println("Item" + id + " is not currently borrowed");
-			return ActionResult.FAILURE;
+			System.out.println("Item " + id + " is not currently borrowed");
+			throw new BorrowException(id, "not borrowed");
 		}
 		
 		System.out.print("Enter number of days on loan: ");
@@ -40,8 +41,6 @@ public class ActionReturn extends Action {
 			System.out.println("Days has to be a positive number");
 			return ActionResult.FAILURE;
 		} 
-		
-		//TODO: Change so it uses the day borrowed not todays date
 		
 		double fee = toReturn.returnItem(new DateTime(days));
 		String forFee = String.format("%1.2f", fee);

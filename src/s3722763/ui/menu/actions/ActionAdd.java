@@ -2,11 +2,11 @@ package s3722763.ui.menu.actions;
 
 import java.util.Scanner;
 
+import s3722763.hireitems.Game;
 import s3722763.hireitems.Item;
 import s3722763.hireitems.Movie;
 import s3722763.util.exceptions.IdException;
 
-//TODO: Add case for game and movie (Seperate them) as the following only covers movies
 public class ActionAdd extends Action {
 	public ActionAdd() {
 		super("Add");
@@ -15,7 +15,7 @@ public class ActionAdd extends Action {
 	@Override
 	public ActionResult act(Item[] items) throws IdException {
 		tempRentalItems = items;
-		Item createdItem;
+		Item createdItem = null;
 		
 		if (items == null) {
 			reasonForFailure = "The item array must be set before it is used";
@@ -24,7 +24,6 @@ public class ActionAdd extends Action {
 		
 		Scanner in = new Scanner(System.in);
 		
-		//TODO: Movie has M_ and game has G_
 		System.out.print("Enter ID: ");
 		String id = in.nextLine();
 		boolean alreadyAdded = checkID(id, items);
@@ -35,9 +34,6 @@ public class ActionAdd extends Action {
 			throw new IdException("needs 3 characters");
 		}
 		
-		//For movie
-		id = "M_" + id;
-		
 		System.out.print("Enter title: ");
 		String title = in.nextLine();
 		
@@ -47,25 +43,54 @@ public class ActionAdd extends Action {
 		System.out.print("Enter description: ");
 		String description = in.nextLine();
 		
+		boolean isMovie = false;
 		boolean release = false;
-		boolean isNewRelease = false;
-		while (!release) {
-			System.out.print("Enter new release (Y/N): ");
-			String newRelease = in.nextLine();
-			
-			if (newRelease.toLowerCase().equals("y")) {
-				isNewRelease = true;
+		System.out.println("Are you adding a game or movie? (M or G)");
+		while(!release) {
+			String type = in.nextLine();
+			if (type.toLowerCase().equals("m")) {
+				isMovie = true;
 				release = true;
-			} else if (newRelease.toLowerCase().equals("n")) {
-				isNewRelease = false;
+			} else if (type.toLowerCase().equals("g")) {
+				isMovie = false;
 				release = true;
 			} else {
-				System.out.println("You need to enter either y or n not " + newRelease);
+				System.out.println("Must input either m or g");
 			}
 		}
 		
-		createdItem = new Movie(id, title, genre, description, isNewRelease);
-		addItemToRentalList(createdItem);
+		release = false;
+		if (isMovie) {
+			id = "M_" + id;
+			boolean isNewRelease = false;
+			while (!release) {
+				System.out.print("Enter new release (Y/N): ");
+				String newRelease = in.nextLine();
+				
+				if (newRelease.toLowerCase().equals("y")) {
+					isNewRelease = true;
+					release = true;
+				} else if (newRelease.toLowerCase().equals("n")) {
+					isNewRelease = false;
+					release = true;
+				} else {
+					System.out.println("You need to enter either y or n not " + newRelease);
+				}
+			}
+		
+			createdItem = new Movie(id, title, genre, description, isNewRelease);
+		} else {
+			id = "G_" + id;
+			System.out.println("Enter game platforms (Seperate with comma): ");
+			String result = in.nextLine();
+			String[] platforms = result.trim().split(",");
+			
+			createdItem = new Game(id, title, genre, description, platforms);
+		}
+		
+		if (createdItem != null) {
+			addItemToRentalList(createdItem);
+		}
 		
 		return ActionResult.SUCCESS;
 	}
@@ -81,7 +106,7 @@ public class ActionAdd extends Action {
 		}
 		
 		if (emptyIndex == -1) {
-			Item[] newArray = new Item[tempRentalItems.length];
+			Item[] newArray = new Item[tempRentalItems.length + 1];
 			
 			for (int i = 0; i < tempRentalItems.length; i++) {
 				newArray[i] = tempRentalItems[i];

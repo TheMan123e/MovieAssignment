@@ -1,6 +1,7 @@
 package s3722763.hireitems;
 
 import s3722763.util.DateTime;
+import s3722763.util.exceptions.BorrowException;
 
 public abstract class Item {
 	//TODO: Maybe change these protected to only getters
@@ -10,7 +11,7 @@ public abstract class Item {
 	protected String genre;
 	protected double fee;
 	protected HiringRecord[] hireHistory;
-	protected HiringRecord currentlyBorrowed;
+	protected int indexOfCurrentlyBorrowed;
 	
 	public Item(String id, String title, String genre, String description) {
 		this.title = title;
@@ -99,7 +100,8 @@ public abstract class Item {
 	}
 	
 	public abstract String getDetails();
-	public abstract double borrow(String memberID);
+	public abstract double borrow(String memberID) throws BorrowException;
+	public abstract double borrow(String memberID,  int daysInAdvance) throws BorrowException;
 	public abstract double returnItem(DateTime returnDate);
 	public abstract DateTime getDateToReturn();
 	
@@ -112,14 +114,22 @@ public abstract class Item {
 	}
 	
 	public boolean isCurrentlyBorrowed() {
-		return currentlyBorrowed != null;
+		if (indexOfCurrentlyBorrowed >= 0 && hireHistory[indexOfCurrentlyBorrowed] != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public String getTitle() {
 		return title;
 	}
 	
-	public void setCurrentlyBorrowed(HiringRecord hr) {
-		this.currentlyBorrowed = hr;
+	public void setCurrentlyBorrowed(int index) {
+		this.indexOfCurrentlyBorrowed = index;
 	}
+	
+	public void setHiringRecord(HiringRecord[] hr) {
+		hireHistory = hr;
+ 	}
 }

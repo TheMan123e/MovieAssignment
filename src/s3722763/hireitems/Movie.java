@@ -1,5 +1,6 @@
 package s3722763.hireitems;
 import s3722763.util.DateTime;
+import s3722763.util.exceptions.BorrowException;
 
 public class Movie extends Item {
 	private boolean isNewRelease;
@@ -21,27 +22,32 @@ public class Movie extends Item {
 	}
 
 	@Override
-	public double borrow(String memberID) {
+	public double borrow(String memberID) throws BorrowException {
+		return borrow(memberID, -1);
+	}
+	
+	@Override
+	public double borrow(String memberID, int daysInAdvance) throws BorrowException{
 		double fee = Double.NaN;
-		boolean borrowed = isCurrentlyBorrowed();
-		if (!isCurrentlyBorrowed()) {
+		if (!isCurrentlyBorrowed() || daysInAdvance > 0) {
 			int index = indexOfOldest();
-			HiringRecord hr = new HiringRecord();
 			
-			if (isNewRelease) {
-				hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE_NEW);
-			} else {
-				hr.borrowItem(id, memberID, STANDARD_RENTAL_FEE);
-			}
+			fee = getFee();
 			
+			HiringRecord hr = new HiringRecord(fee);
+			hr.borrowItem(id, memberID);
+			
+			if (daysInAdvance > 0) {
+				DateTime today = new DateTime();
+				hr.setDateBorrowed(new DateTime(today, daysInAdvance));
+			}			
+
 			getHireHistory()[index] = hr;
-			currentlyBorrowed = hr;
-			
-			fee = hr.getRentalFee();
+			indexOfCurrentlyBorrowed = index;
 			
 			System.out.println("Borrowed movie");
 		} else {
-			System.out.println("Book already borrowed");
+			throw new BorrowException(getID(), "already borrowed");
 		}
 		
 		return fee;
@@ -52,12 +58,12 @@ public class Movie extends Item {
 		double fee = 0;
 		
 		if (isCurrentlyBorrowed())  {
-			int daysBorrowed = DateTime.diffDays(returnDate, currentlyBorrowed.getDateBorrowed());
+			int daysBorrowed = DateTime.diffDays(returnDate, hireHistory[indexOfCurrentlyBorrowed].getDateBorrowed());
 			
 			if (daysBorrowed > 0) {
 				fee = calculateFee(daysBorrowed);
-				currentlyBorrowed.returnItem(returnDate, fee);
-				
+				hireHistory[indexOfCurrentlyBorrowed].returnItem(returnDate, fee);
+				indexOfCurrentlyBorrowed = -1;	
 			} else {
 				System.out.println("The resulting days in negative, you can't give back a movie before you borrowed it");
 				fee = Double.NaN;
@@ -65,12 +71,6 @@ public class Movie extends Item {
 		} else {
 			System.out.println("Movie has not been borrowed");
 			fee = Double.NaN;
-		}
-		
-		if (!isCurrentlyBorrowed()) {
-			//Means the above loop could return item
-			int index = indexOfOldest();
-			hireHistory[index] = new HiringRecord();
 		}
 		
 		return fee;
@@ -86,7 +86,9 @@ public class Movie extends Item {
 			daysOver = days - MAX_DAYS;
 		}
 		
-		fee += daysOver * (0.5 * currentlyBorrowed.getRentalFee());
+		if (daysOver > 0) {
+			fee += daysOver * (0.5 * hireHistory[indexOfCurrentlyBorrowed].getRentalFee());
+		}
 		
 		return fee;
 	}
@@ -146,22 +148,26 @@ public class Movie extends Item {
 		
 		return result;
 	}
-	
-	public void addToHiringRecord(HiringRecord hr) {
-		int index = indexOfOldest();
-		hireHistory[index] = hr;
- 	}
+
 
 	@Override
 	public DateTime getDateToReturn() {
 		DateTime dt;
 		
 		if (isNewRelease) {
-			dt = new DateTime(currentlyBorrowed.getDateBorrowed(), MAX_DAYS_NEW);
+			dt = new DateTime(hireHistory[indexOfCurrentlyBorrowed].getDateBorrowed(), MAX_DAYS_NEW);
 		} else {
-			dt = new DateTime(currentlyBorrowed.getDateBorrowed(), MAX_DAYS);
+			dt = new DateTime(hireHistory[indexOfCurrentlyBorrowed].getDateBorrowed(), MAX_DAYS);
 		}
 		
 		return dt;
+	}
+
+	public double getFee() {
+		if (isNewRelease) {
+			return STANDARD_RENTAL_FEE_NEW;
+		} else {
+			return STANDARD_RENTAL_FEE;
+		}
 	}
 }

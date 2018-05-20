@@ -7,10 +7,6 @@ public class HiringRecord {
 	private double lateFee;
 	private DateTime borrowDate;
 	private DateTime returnDate;
-	
-	//TODO: Remove eventually
-	public HiringRecord() {}
-	
 	/**
 	 * @param id
 	 * @param dateReturned
@@ -33,6 +29,7 @@ public class HiringRecord {
 	
 	public HiringRecord(String id) {
 		String[] idElements = id.split("_");
+			//4th element of the id has t he 8 digit date
 		String dateBorrowedStr = idElements[3];
 		int dateBorrowed = Integer.parseInt(dateBorrowedStr);
 		this.id = id;
@@ -40,13 +37,15 @@ public class HiringRecord {
 		borrowDate.setDate(dateBorrowed);
 	}
 	
+	public HiringRecord(double fee) {
+		this.rentalFee = fee;
+	}
+	
 	/**
 	 * @param id
 	 * @param memberID
-	 * @param rentalFee
 	 */
-	public void borrowItem(String id, String memberID, double rentalFee) {
-		this.rentalFee = rentalFee;
+	public void borrowItem(String id, String memberID) {
 		this.borrowDate = new DateTime();
 		this.id = id + "_" + memberID + "_" + this.borrowDate.getEightDigitDate();
 	}
@@ -102,5 +101,9 @@ public class HiringRecord {
 	
 	public double getRentalFee() {
 		return rentalFee;
+	}
+
+	public void setDateBorrowed(DateTime day) {
+		this.borrowDate = day;
 	}
 }
