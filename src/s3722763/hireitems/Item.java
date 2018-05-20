@@ -3,6 +3,11 @@ package s3722763.hireitems;
 import s3722763.util.DateTime;
 import s3722763.util.exceptions.BorrowException;
 
+/*
+ * Class: Item
+ * Description: Base class for hireable items
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public abstract class Item {
 	//TODO: Maybe change these protected to only getters
 	protected String id;
@@ -61,11 +66,10 @@ public abstract class Item {
 		DateTime now = new DateTime();
 		int index = 0;
 		int difference = 0;
-		
-		//TODO: Check if there is an index with nothing there, if so then put the hire into that index
 		for (int i = 0; i < hireHistory.length; i++) {
 			if (hireHistory[i] != null) {
-				int tempDifference = DateTime.diffDays(now, hireHistory[i].getDateBorrowed());
+				int tempDifference = DateTime.diffDays(now,
+						hireHistory[i].getDateBorrowed());
 				if (tempDifference < difference) {
 					difference = tempDifference;
 					index = i;
@@ -76,12 +80,26 @@ public abstract class Item {
 		return index;
 	}
 	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		GET todays date
+	 * 		FOR EACH item in hireHistory
+	 * 			IF hiringrecord does not equal null
+	 * 				IF difference in days is bigger than
+	 * 				   previously bigger date diffference
+	 * 				   SET biggest difference to new difference
+	 * 				   SET biggest difference index to new index
+	 *			IF hiring record is equal to null
+	 *				SET index is equal to current index
+	 *				RETURN this index
+	 		RETURN index;
+	 * END
+	 */
 	protected int indexOfOldest() {
 		DateTime now = new DateTime();
 		int index = 0;
 		int difference = 0;
-		
-		//TODO: Check if there is an index with nothing there, if so then put the hire into that index
 		for (int i = 0; i < hireHistory.length; i++) {
 			if (hireHistory[i] != null) {
 				int tempDifference = DateTime.diffDays(now, hireHistory[i].getDateReturned());

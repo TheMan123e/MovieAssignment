@@ -6,12 +6,35 @@ import s3722763.hireitems.Game;
 import s3722763.hireitems.Item;
 import s3722763.util.exceptions.BorrowException;
 import s3722763.util.exceptions.IdException;
-
+/*
+ * Class: ActionBorrow
+ * Description: This class represents the action to borrow an item
+ * 				which is contained in the rental items array
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class ActionBorrow extends Action {
 	public ActionBorrow() {
 		super("Borrow");
 	}
-	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		GET itemindex
+	 * 		GET id of item
+	 * 		IF item id doesn't exist
+	 * 			THROW IdException that item does not exist
+	 * 		IF item is already borrowed
+	 * 			THROW BorrowException that item is already borrowed
+	 * 		GET member it
+	 * 		GET advance borrow time
+	 * 		IF item is of the type game
+	 * 			GET if the user wants to have the item on extended loan
+	 * 		BORROW ITEM
+	 * 		IF item is of type game and user wants extended loan
+	 * 			SET game as extended
+	 * 		DISPLAY item rented and cost due now
+	 * END
+	 */
 	@Override
 	public ActionResult act(Item[] items) throws Exception{
 		Scanner input = new Scanner(System.in);
@@ -20,7 +43,6 @@ public class ActionBorrow extends Action {
 		Item toRent = null;
 		boolean isGame = false;
 		
-		//TODO: Accept Lower case or mix
 		for(Item i : items) {
 			if (i != null) {
 				if(i.getID().equals("G_" + id)) {
@@ -77,7 +99,8 @@ public class ActionBorrow extends Action {
 		
 		String forFee = String.format("%1.2f", fee);
 		
-		System.out.println("The item " + toRent.getTitle() + " costs $" + forFee + " and is due on: " + toRent.getDateToReturn().getFormattedDate());
+		System.out.println("The item " + toRent.getTitle() + " costs $" + forFee + 
+				" and is due on: " + toRent.getDateToReturn().getFormattedDate());
 		
 		return ActionResult.SUCCESS;
 	}

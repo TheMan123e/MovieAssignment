@@ -6,7 +6,12 @@ import s3722763.hireitems.Game;
 import s3722763.hireitems.Item;
 import s3722763.hireitems.Movie;
 import s3722763.util.exceptions.IdException;
-
+/*
+ * Class: ActionAdd
+ * Description: This class represents an action which adds a rentable item
+ * 				to the array of rentable items
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class ActionAdd extends Action {
 	public ActionAdd() {
 		super("Add");
@@ -74,7 +79,8 @@ public class ActionAdd extends Action {
 					isNewRelease = false;
 					release = true;
 				} else {
-					System.out.println("You need to enter either y or n not " + newRelease);
+					System.out.println("You need to enter either y "
+							+ "or n not " + newRelease);
 				}
 			}
 		
@@ -95,6 +101,20 @@ public class ActionAdd extends Action {
 		return ActionResult.SUCCESS;
 	}
 	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		FOREACH item in rental item array
+	 * 			IF item is null
+	 * 				SET index to put item as index at
+	 * 		
+	 *		IF index equals -1
+	 *			CREATE array one size bigger
+	 *			SET index as last index in array
+	 *		
+	 *		SET item at chosen index as item passed through	
+	 * END
+	 */
 	public void addItemToRentalList(Item item) {
 		int emptyIndex = -1;
 		

@@ -1,8 +1,20 @@
 package s3722763.hireitems;
 import s3722763.util.DateTime;
 
+/*
+ * Class: HiringRecord
+ * Description: This class represents a record of hiring
+ * 				which is created when an item is rented 
+ * 				and updated when returned
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class HiringRecord {
 	private String id;
+
+	public void setReturnDate(DateTime returnDate) {
+		this.returnDate = returnDate;
+	}
+
 	private double rentalFee;
 	private double lateFee;
 	private DateTime borrowDate;
@@ -40,10 +52,13 @@ public class HiringRecord {
 	public HiringRecord(double fee) {
 		this.rentalFee = fee;
 	}
-	
-	/**
-	 * @param id
-	 * @param memberID
+	/*
+	 * ALGORITH
+	 * BEGIN
+	 * 		SET borrowdate to todays date
+	 * 		SET id to equal the item id, member id and an 8 digit representation
+	 * 			of the borrow date seperated with _
+	 * END
 	 */
 	public void borrowItem(String id, String memberID) {
 		this.borrowDate = new DateTime();
@@ -52,23 +67,31 @@ public class HiringRecord {
 	
 	public void returnItem(DateTime returnDate, double lateFee) {
 		this.returnDate = returnDate;
-		this.lateFee = lateFee;
+		
+		if (lateFee > 0) {
+			this.lateFee = lateFee;
+		}
 	}
 	
 	public String getDetailsFormatted() {
 		String result = "";
 		result += String.format("%16sHire ID: %4s%s\n", " ", " ", id);
-		result += String.format("%16sBorrow Date: %s\n", " ", borrowDate.getFormattedDate());
+		result += String.format("%16sBorrow Date: %s\n", " ", 
+				borrowDate.getFormattedDate());
 		
 		if (returnDate != null) {
 			//Seperated to make it easier to read
-			result += String.format("%16sReturn Date: %s\n", " ", borrowDate.getFormattedDate());
-			result += String.format("%16sFee: %8s$%1.2f\n", " ", " ", rentalFee);
-			result += String.format("%16sLate Fee: %3s$%1.2f\n", " ", " ", lateFee);
+			result += String.format("%16sReturn Date: %s\n", " ",
+					borrowDate.getFormattedDate());
+			result += String.format("%16sFee: %8s$%1.2f\n", 
+					" ", " ", rentalFee);
+			result += String.format("%16sLate Fee: %3s$%1.2f\n",
+					" ", " ", lateFee);
 			
 			double totalFee = rentalFee + lateFee;
 			
-			result += String.format("%16sTotal Fee: %s $%1.2f\n", " ", " ", totalFee);
+			result += String.format("%16sTotal Fee: %s $%1.2f\n",
+					" ", " ", totalFee);
 			result += String.format("%16s%s\n", " ", "-");
 		}
 
@@ -79,7 +102,8 @@ public class HiringRecord {
 		String result;
 		
 		if (returnDate != null) {
-			result = String.format("%s:%s:%1.2f:%1.2f", id, returnDate.getEightDigitDate(), rentalFee, lateFee);
+			result = String.format("%s:%s:%1.2f:%1.2f", id, 
+					returnDate.getEightDigitDate(), rentalFee, lateFee);
 		} else {
 			result = String.format("%s:%s:%s:%s", id, "none", "none", "none");
 		}
@@ -105,5 +129,13 @@ public class HiringRecord {
 
 	public void setDateBorrowed(DateTime day) {
 		this.borrowDate = day;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public double getLateFee() {
+		return lateFee;
 	}
 }

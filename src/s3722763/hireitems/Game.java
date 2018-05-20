@@ -3,6 +3,12 @@ package s3722763.hireitems;
 import s3722763.util.DateTime;
 import s3722763.util.exceptions.BorrowException;
 
+/*
+ * Class: Game
+ * Description: This class represents a rentable game
+ * 				for each instance of this class
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class Game extends Item {
 	private String[] platforms;
 	private boolean extended;
@@ -66,13 +72,33 @@ public class Game extends Item {
 		
 		return fee;
 	}
-
+	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		IF game is currently borrowed
+	 *			COMPUTE number of days more than standard time
+	 *			IF the number of days over is over standard time
+	 *				COMPUTE days over * fee per day ($1 a day)
+	 *				COMPUTE weeks over * fee per week ($5 a week)
+	 *				IF the item has extended hire
+	 *					COMPUTE fee is now 
+	 *		ELSE
+	 *			DISPLAY error that game hasn't been borrowed
+	 *		RETURN fee computed
+	 *END
+	 *
+	 *TEST
+	 *		RETURNDATE is in 15 days, then fee equal to $0
+	 *		RETURNDATE is in 25 days, then fee equal to $3
+	 */
 	@Override
 	public double returnItem(DateTime returnDate){
 		double fee = Double.NaN;
 		
 		if (isCurrentlyBorrowed()) {
-			int dayDiff = DateTime.diffDays(returnDate, hireHistory[indexOfCurrentlyBorrowed].getDateBorrowed());
+			int dayDiff = DateTime.diffDays(returnDate, 
+					hireHistory[indexOfCurrentlyBorrowed].getDateBorrowed());
 			
 			dayDiff -= BORROW_TIME;
 			
@@ -87,7 +113,7 @@ public class Game extends Item {
 				hireHistory[indexOfCurrentlyBorrowed].returnItem(returnDate, fee);
 				indexOfCurrentlyBorrowed = -1;
 			} else {
-				System.out.println("Ýou cannot return the game before you rented it");
+				System.out.println("You cannot return the game before you rented it");
 			}
 		}
 		

@@ -11,18 +11,17 @@ import s3722763.ui.menu.actions.Action;
 import s3722763.ui.menu.actions.ActionResult;
 import s3722763.util.FileHandler;
 
+/*
+ * Class: MovieMaster
+ * Description: This class represents the loading, saving and handling of actions
+ * 				as well as handling the modifications to the rentalItems
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class MovieMaster {	
 	private final String DELIMITER = ":/";
 	private Item[] rentalItems;
 	private Menu menu;
 	
-	/*
-	 * Load menu
-	 * Get user key
-	 * find menu item with that key
-	 * 
-	 * 
-	 */
 	public MovieMaster() {
 		rentalItems = new Item[2];
 		menu = new Menu();
@@ -70,6 +69,24 @@ public class MovieMaster {
 		}
 	}
 	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		LOAD file movies
+	 * 		GET file delimiter
+	 * 		CREATE list of movies from data loaded from file movies
+	 * 		FOREACH item in created movies list
+	 * 			LOAD file with item id name
+	 * 			LOAD file with item hiring record
+	 * 			ADD to rental item list
+	 * 		LOAD file games
+	 * 		Create list of game from data loaded from file game
+	 * 		FOREACH item in created games list
+	 * 			LOAD file with item id name
+	 * 			LOAD file with item hiring record
+	 * 			ADD to rental item list
+	 * END
+	 */
 	private void loadRentalItems() throws IOException {
 		FileHandler fileHandler = new FileHandler();
 		//Movies
@@ -91,7 +108,8 @@ public class MovieMaster {
 				String[] infoSorted = info.split(":");
 				boolean extended = infoSorted[6].toLowerCase().equals("e");
 				String[] platforms = infoSorted[5].split(", ");
-				Game game = new Game(infoSorted[0], infoSorted[1], infoSorted[3], infoSorted[2], platforms);
+				Game game = new Game(infoSorted[0], infoSorted[1],
+						infoSorted[3], infoSorted[2], platforms);
 				if (extended) {
 					game.extend();
 				}
@@ -154,7 +172,8 @@ public class MovieMaster {
 					isNewRelease = false;
 				}
 				
-				Movie movie = new Movie(infoSorted[0], infoSorted[1], infoSorted[3], infoSorted[2], isNewRelease);
+				Movie movie = new Movie(infoSorted[0], infoSorted[1],
+						infoSorted[3], infoSorted[2], isNewRelease);
 				HiringRecord[] hiringRecord = getRentalData(fileHandler, movie.getID());
 				
 				movie.setHiringRecord(hiringRecord);

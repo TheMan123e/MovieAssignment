@@ -7,16 +7,34 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-//TODO: Add support for backups
+/*
+ * Class: FileHandler
+ * Description: This class handles the saving and loading of files
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class FileHandler {
 	private final String DELIMITER = ":";
+	
+	/*
+	 * ALGORIGHM
+	 * BEGIN
+	 * 		IF file doesn't exist
+	 * 			IF backup file doesn't exist
+	 * 				CREATE new file with file name
+	 * 				RETURN empty string
+	 * 		LOAD file
+	 * 		RETURN string created from loading file
+	 * END
+	 */
 	public String load(String fileName) throws IOException{
 		File file = new File(fileName);
 		
 		if (!file.exists()) {
-			file.createNewFile();
-			//TODO: Add exception
-			//TODO: Check for backup
+			file = new File(fileName + "_backup");
+			if (!file.exists()) {
+				file = new File(fileName);
+				file.createNewFile();
+			}
 			return "";
 		}
 		

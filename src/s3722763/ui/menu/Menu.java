@@ -10,7 +10,13 @@ import s3722763.ui.menu.actions.ActionExit;
 import s3722763.ui.menu.actions.ActionReturn;
 import s3722763.ui.menu.actions.ActionSeedData;
 import s3722763.ui.menu.items.MenuItem;
-
+/*
+ * Class: Menu
+ * Description: This class represents the menu, and displays
+ * 				the menu as well as getting the action from the key
+ * 				pressed
+ * Author: Daniel Miskimmin	- 3722763
+ */
 public class Menu {
 	MenuItem[] menuItems;
 	
@@ -55,6 +61,16 @@ public class Menu {
 		}
 	}
 	
+	/*
+	 * ALGORITHM
+	 * BEGIN
+	 * 		GET user input
+	 * 		FOREACH item in the array menu item
+	 * 			IF the input is equal the menu items key
+	 * 				SET action to equal menu item's action
+	 * 		RETURN action
+	 * END
+	 */
 	public Action getActionFromInput() {
 		Scanner input = new Scanner(System.in);
 		String key = null;
@@ -75,7 +91,8 @@ public class Menu {
 		}
 		
 		if (a == null && key != null) {
-			System.out.println("Could not find menu action corrisponding to key " + key);
+			System.out.println("Could not find menu action"
+					+ " corrisponding to key " + key);
 		}
 		
 		return a;
